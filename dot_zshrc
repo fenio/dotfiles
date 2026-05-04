@@ -1,0 +1,57 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+# History
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
+setopt SHARE_HISTORY          # share history across all open terminals in real time
+setopt HIST_IGNORE_ALL_DUPS   # remove older duplicate when a new duplicate is added
+setopt HIST_IGNORE_SPACE      # don't record commands starting with a space
+setopt HIST_REDUCE_BLANKS     # trim unnecessary blanks
+
+source /opt/homebrew/share/powerlevel10k/powerlevel10k.zsh-theme
+
+source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE="50"
+ZSH_AUTOSUGGEST_USE_ASYNC=1
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:/opt/homebrew/opt/rustup/bin:$PATH"
+
+alias ls='ls --color=auto'
+
+autoload -Uz compinit
+compinit
+zstyle ':completion:*' menu select
+
+alias k="kubectl"
+alias kns="kubectl ns"
+alias kctx="cs"
+alias kg="kubectl get"
+alias kgp="kubectl get pod"
+alias kga="kubectl get all"
+alias kd="kubectl describe"
+alias stern="kubectl stern"
+alias tf="terraform"
+alias tfp="terraform plan"
+alias tfa="terraform apply"
+
+cs() {
+  eval "$(~/cs/cs "$@")"
+}
+csdev() {
+  eval "$(~/cs/csdev "$@")"
+}
+
+
+#source <(fzf --zsh)
+
+# Added by Antigravity
+export PATH="/Users/bfenski/.antigravity/antigravity/bin:$PATH"
